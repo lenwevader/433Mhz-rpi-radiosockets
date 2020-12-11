@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+    <title>Funksteckdosen</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+
+        function showSockets() {
+            $.ajax({
+                type: "GET",
+                url: "showSockets.php",
+                datatype: "text",
+                success: function (data) {
+                    $('#known').html(data);
+                }
+            });
+        }
+        function addSocket() {
+            if ($('#uid').val() != "" && $('#scode') != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "addSockets.php",
+                    data: {
+                        'uid': $('#uid').val(),
+                        'scode': $('#scode').val(),
+                        'name': $('#name').val(),
+                        'hersteller': $('#hersteller').val()
+                    }
+                });
+                updateCron();
+
+                location.reload();
+            } else {
+                alert("Geben Sie die Unit-Id und den Systemcode ein.");
+            }
+        }
+
+        function deleteSocket(id) {
+            $.ajax({
+                type: "GET",
+                url: "deleteSockets.php",
+                data: {'id': id}
+            });
+
+            updateCron();
+            location.reload();
+        }
+
+        function updateCron() {
+            $.ajax({
+                type: "POST",
+                url: "updateCron.php"
+            });
+        }
+
+        function getProducer(){
+            $.ajax({
+                type: "GET",
+                url: "getProducer.php",
+                datatype: 'json',
+                async: false,
+                success: function(data){
+                    var array = JSON.parse(data);
+                    $.each(array,function(index,value){
+                        //alert(index+": "+value);
+                        $('#hersteller').append(new Option(value,index));
+                    });
+                },
+                error: function(data){
+                    alert("Error");
+                }
+            });
+        }
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="steckdosen.css">
+</head>
+<body onload="showSockets(),getProducer()">
+
+    <ul id="Navigation">
+        <li><a href="Steckdosen.html">Steckdosen verwalten</a></li>
+        <li><a href="Profile/Profile.html">Gruppen verwalten</a></li>
+        <li><a href="fernbedienung.php">Fernbedienung</a></li>
+    </ul>
+
+    <div id="Inhalt">
+        <h1>Funksteckdosen</h1>
+
+        <h3>Neue Steckdose anmelden:</h3>
+        <table>
+            <tr>
+                <td>Hersteller:</td>
+                <td><select id="hersteller">
+
+                </select></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <td>Unit-Id:</td>
+                <td><input type="text" id="uid"></td>
+            </tr>
+            <tr>
+                <td>System-Code:</td>
+                <td><input type="text" id="scode"/></td>
+            </tr>
+        </table>
+        <input type="button" value="Anmelden" onclick="addSocket()"/><br/>
+
+        <h3>Bekannte Steckdosen:</h3>
+
+        <div id="known"></div>
+    </div>
+</body>
+</html>

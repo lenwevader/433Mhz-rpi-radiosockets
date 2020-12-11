@@ -1,0 +1,76 @@
+{
+	"devices": {
+		"Laterne": {
+			"protocol": [ "pollin" ],
+			"id": [{
+				"systemcode": 21,
+				"unitcode": 1
+			}],
+			"state": "on"
+		},
+		"Vitrine": {
+			"protocol": [ "pollin" ],
+			"id": [{
+				"systemcode": 21,
+				"unitcode": 2
+			}],
+			"state": "on"
+		},
+		"VitrineII": {
+			"protocol": [ "elro_400_switch" ],
+			"id": [{
+				"systemcode": 11,
+				"unitcode": 15
+			}],
+			"state": "on"
+		},
+		"Pumpe": {
+			"protocol": [ "elro_400_switch" ],
+			"id": [{
+				"systemcode": 11,
+				"unitcode": 29
+			}],
+			"state": "off"
+		},
+		"Aussenlaterne": {
+			"protocol": [ "elro_400_switch" ],
+			"id": [{
+				"systemcode": 11,
+				"unitcode": 30
+			}],
+			"state": "off"
+		},
+		"Aussentuer": {
+			"protocol": [ "intertechno_switch" ],
+			"id": [{
+				"id": 1,
+				"unit": 1
+			}],
+			"state": "off"
+		}
+	},
+	"rules": {},
+	"gui": {},
+	"settings": {
+		"log-level": 6,
+		"pid-file": "/var/run/pilight.pid",
+		"log-file": "/var/log/pilight.log",
+		"webserver-enable": 1,
+		"webserver-root": "/usr/local/share/pilight/",
+		"webserver-http-port": 5001,
+		"webserver-cache": 1
+	},
+	"hardware": {
+		"433gpio": {
+			"sender": 0,
+			"receiver": 1
+		}
+	},
+	"registry": {
+		"pilight": {
+			"version": {
+				"current": "7.0"
+			}
+		}
+	}
+}

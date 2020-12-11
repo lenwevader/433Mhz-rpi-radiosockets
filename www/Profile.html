@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Profile berarbeiten</title>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script>
+
+        function showProfiles() {
+            $.ajax({
+                type: "GET",
+                url: "showProfiles.php",
+                datatype: "text",
+                success: function (data) {
+                    $('#known').html(data);
+                }
+            });
+        }
+        function addProfile() {
+            if ($('#name').val() != "") {
+                $.ajax({
+                    type: "GET",
+                    url: "addProfile.php",
+                    data: {
+                        'name': $('#name').val()
+                    }
+                });
+
+                location.reload();
+            } else {
+                alert("Geben Sie einen Namen an.");
+            }
+        }
+        function deleteProfile(id) {
+            $.ajax({
+                type: "GET",
+                url: "deleteProfile.php",
+                data: {'id': id}
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "../updateCron.php"
+            });
+            location.reload();
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="../steckdosen.css">
+</head>
+<body onload="showProfiles()">
+
+<ul id="Navigation">
+    <li><a href="../Steckdosen.html">Steckdosen verwalten</a></li>
+    <li><a href="Profile.html">Zeitprofile verarbeiten</a></li>
+    <li><a href="../fernbedienung.php">Fernbedienung</a></li>
+</ul>
+
+<div id="Inhalt">
+    <h1>Profile bearbeiten</h1>
+
+    <h3>Neues Profil erstellen:</h3>
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" id="name"></td>
+        </tr>
+    </table>
+    <input type="button" value="Anmelden" onclick="addProfile()"/><br/>
+
+    <h3>Vorhandene Profile</h3>
+
+    <div id="known"></div>
+</div>
+</html>
